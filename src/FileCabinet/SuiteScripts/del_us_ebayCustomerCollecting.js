@@ -28,6 +28,8 @@ function(currentRecord, log, record, transaction, dialog) {
             if(record.getText('custbody_ordertype') == "Customer Collecting"){
                 let saleschannels = ["4","5","101","7","8","6","111"];
                 if(saleschannels.includes(record.getValue('custbody_itemfulfilment_saleschannel'))){
+                    let button = form.getButton('markpacked');
+                    button.setDisabled(true);
                     if(record.getText('shipstatus') == "Shipped"){
                         record.getField('custbody_del_ebaycollectioncode').isDisplay= true;
                         record.getField('custbody_del_ebaycollectioncode').isMandatory = true;
