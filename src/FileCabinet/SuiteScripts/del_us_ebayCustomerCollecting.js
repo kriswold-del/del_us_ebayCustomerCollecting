@@ -22,19 +22,29 @@ function(currentRecord, log, record, transaction, dialog) {
      *
      * @since 2015.2
      */
+
     function pageInit(scriptContext) {
         try{
             let record = scriptContext.currentRecord;
+            let objFieldLookUp = search.lookupFields(
+                {
+                    type : 'classification',
+                    id : DEL_SalesChannel,
+                    columns :
+                        [
+                            'custrecord_del_ebaysaleschannel'
+                        ]
+                });
+
+            //let ebaychannel = objFieldLookUp["custrecord_del_ebaysaleschannel"];
             if(record.getText('custbody_ordertype') == "Customer Collecting"){
                 let saleschannels = ["4","5","101","7","8","6","111"];
                 if(saleschannels.includes(record.getValue('custbody_itemfulfilment_saleschannel'))){
-                    let button = form.getButton('markpacked');
-                    button.setDisabled(true);
+                    //if (ebaychannel == true) {
+                    record.getField('custbody_del_ebaycollectioncode').isDisplay= true;
                     if(record.getText('shipstatus') == "Shipped"){
-                        record.getField('custbody_del_ebaycollectioncode').isDisplay= true;
                         record.getField('custbody_del_ebaycollectioncode').isMandatory = true;
                     }else{
-                        record.getField('custbody_del_ebaycollectioncode').isDisplay= false;
                         record.getField('custbody_del_ebaycollectioncode').isMandatory = false;
                     }
                 }else{
@@ -68,13 +78,18 @@ function(currentRecord, log, record, transaction, dialog) {
         try{
             let record = scriptContext.currentRecord;
             if(record.getText('custbody_ordertype') == "Customer Collecting"){
+
+
+
                 let saleschannels = ["4","5","101","7","8","6","111"];
                 if(saleschannels.includes(record.getValue('custbody_itemfulfilment_saleschannel'))){
+
+
+
+                    record.getField('custbody_del_ebaycollectioncode').isDisplay= true;
                     if(record.getText('shipstatus') == "Shipped"){
-                        record.getField('custbody_del_ebaycollectioncode').isDisplay= true;
                         record.getField('custbody_del_ebaycollectioncode').isMandatory = true;
                     }else{
-                        record.getField('custbody_del_ebaycollectioncode').isDisplay= false;
                         record.getField('custbody_del_ebaycollectioncode').isMandatory = false;
                     }
                 }else{
